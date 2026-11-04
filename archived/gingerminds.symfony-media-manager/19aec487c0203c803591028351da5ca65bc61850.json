@@ -11,6 +11,13 @@
                     "config/": "%CONFIG_DIR%/"
                 },
                 "post-install-output": [
+                    "  * <fg=blue>Storage</>: the files go to <comment>var/storage/media</> by default; the",
+                    "    <comment>default.storage</> of <comment>config/packages/flysystem.yaml</> is not used unless mapped",
+                    "    in <comment>config/packages/gingerminds_media_manager.yaml</>",
+                    "",
+                    "  * <fg=blue>Production</>: keep <comment>var/storage/media</> on a persistent volume,",
+                    "    or the files are lost on every redeploy of the container",
+                    "",
                     "  * <fg=blue>Database</>: generate and run the migration, then create the permissions:",
                     "      <comment>php bin/console doctrine:migrations:diff</>",
                     "      <comment>php bin/console doctrine:migrations:migrate</>",
@@ -28,12 +35,31 @@
                         "# Full reference: bin/console config:dump-reference gingerminds_media_manager",
                         "# Documentation: vendor/gingerminds/symfony-media-manager/docs",
                         "gingerminds_media_manager:",
-                        "    # Without configuration the files go to a private local storage (var/storage/media).",
-                        "    # To store them elsewhere, map disk names to Flysystem storages (config/packages/flysystem.yaml).",
-                        "    # Keep the storage out of public/: the files are served by GET /api/files/{id}.",
+                        "    # Storage: without configuration, the files go to a private local storage declared by the",
+                        "    # bundle (var/storage/media). The `default.storage` of config/packages/flysystem.yaml is NOT",
+                        "    # used unless you map it below. Keep the storage out of public/: the files are served by",
+                        "    # GET /api/files/{id}, with the headers that keep an uploaded SVG from running scripts.",
+                        "    #",
+                        "    # To store them elsewhere, declare a Flysystem storage, then map it to a disk name:",
+                        "    #",
+                        "    #   # config/packages/flysystem.yaml",
+                        "    #   flysystem:",
+                        "    #       storages:",
+                        "    #           media.storage:",
+                        "    #               adapter: 'local'",
+                        "    #               options:",
+                        "    #                   directory: '%kernel.project_dir%/var/storage/media'",
+                        "    #",
+                        "    #           # S3 (composer require league/flysystem-aws-s3-v3), with an Aws\\S3\\S3Client service:",
+                        "    #           # media.storage:",
+                        "    #           #     adapter: 'aws'",
+                        "    #           #     options:",
+                        "    #           #         client: 'Aws\\S3\\S3Client'",
+                        "    #           #         bucket: '%env(MEDIA_S3_BUCKET)%'",
+                        "    #",
                         "    # storage:",
-                        "    #     default_disk: default",
-                        "    #     disks:",
+                        "    #     default_disk: default        # disk of the new uploads",
+                        "    #     disks:                       # disk name => Flysystem storage service id",
                         "    #         default: media.storage",
                         "",
                         "    # library:",
@@ -57,7 +83,7 @@
                     "executable": false
                 }
             },
-            "ref": "d99d46149d2bef48a7130b46a6e5e0aba6bdd50a"
+            "ref": "19aec487c0203c803591028351da5ca65bc61850"
         }
     }
 }
