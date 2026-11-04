@@ -1,0 +1,4 @@
+# Block modal of the pages. The CRUD and tree routes come from the core
+# `gingerminds_crud` loader, the API ones from API Platform.
+gingerminds_cms:
+    resource: '@GingermindsCmsBundle/config/routes.php'

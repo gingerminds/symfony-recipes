@@ -1,0 +1,4 @@
+# Admin site switcher and translations refresh. The site/language CRUD routes come from
+# the core `gingerminds_crud` loader, the API ones from API Platform.
+gingerminds_multisite:
+    resource: '@GingermindsMultisiteBundle/config/routes.php'

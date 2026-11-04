@@ -1,0 +1,3 @@
+# Admin (under gingerminds_core.admin_prefix), generated CRUD routes, API login/logout, /health
+gingerminds_core:
+    resource: '@GingermindsCoreBundle/config/routes.php'

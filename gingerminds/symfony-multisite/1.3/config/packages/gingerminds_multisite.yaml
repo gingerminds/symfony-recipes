@@ -1,0 +1,10 @@
+# Full reference: bin/console config:dump-reference gingerminds_multisite
+# Documentation: vendor/gingerminds/symfony-multisite/docs
+gingerminds_multisite:
+    translation:
+        # Front translations from Google Drive. The service account credentials are
+        # encrypted with APP_SECRET: keep it set and stable.
+        enabled: '%env(bool:GINGERMINDS_MULTISITE_TRANSLATION_ENABLED)%'
+
+    # translation_fallback: true     # API: a missing translation falls back to the site default language
+    # unknown_host: first_site       # host matching no site URL: first_site | not_found

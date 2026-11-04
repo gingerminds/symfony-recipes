@@ -1,0 +1,66 @@
+name: Update Flex endpoint
+
+# Builds the Flex endpoint (index.json + one json per recipe) from the recipes of `main`
+# and force-pushes it to the `flex/main` branch, served by raw.githubusercontent.com.
+# Same tooling as symfony/recipes: https://github.com/symfony-tools/recipes-checker
+
+on:
+    push:
+        branches: [main]
+    workflow_dispatch:
+
+permissions:
+    contents: write
+
+concurrency:
+    group: flex-update
+    cancel-in-progress: false
+
+jobs:
+    flex-update:
+        name: Update Flex endpoint
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.4'
+                  tools: composer
+
+            - name: Install recipes-checker
+              run: |
+                  git config --global user.email "github-actions[bot]@users.noreply.github.com"
+                  git config --global user.name "github-actions[bot]"
+                  cd .github
+                  wget -q -O recipes-checker.zip https://codeload.github.com/symfony-tools/recipes-checker/zip/refs/heads/main
+                  unzip -q recipes-checker.zip
+                  composer install --working-dir=recipes-checker-main --no-dev --no-interaction --ansi
+
+            - name: Lint manifests
+              run: php .github/recipes-checker-main/run lint:manifests
+
+            - name: Generate the endpoint
+              run: |
+                  mkdir .github/flex-endpoint
+                  git ls-tree HEAD */*/* | php .github/recipes-checker-main/run generate:flex-endpoint ${{ github.repository }} main flex/main .github/flex-endpoint
+
+            - name: Push to flex/main
+              run: |
+                  if git ls-remote --exit-code --heads origin flex/main > /dev/null; then
+                      git switch flex/main
+                  else
+                      git switch --orphan flex/main
+                  fi
+                  git rm -q --ignore-unmatch '*.json'
+                  mv .github/flex-endpoint/*.json .
+                  cp -a .github/flex-endpoint/archived .
+                  php .github/recipes-checker-main/run generate:recipes-readme index.json > RECIPES.md
+                  git add *.json archived/ RECIPES.md
+                  git commit -m 'Update Flex endpoint' || true
+                  git push -f origin flex/main

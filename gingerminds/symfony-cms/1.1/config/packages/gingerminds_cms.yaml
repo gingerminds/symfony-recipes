@@ -1,0 +1,15 @@
+# Full reference: bin/console config:dump-reference gingerminds_cms
+# Documentation: vendor/gingerminds/symfony-cms/docs
+gingerminds_cms: ~
+    # search:
+    #     engine: doctrine
+    #     message_threshold: 100     # above it, ReindexSearchContents messages (route them to async)
+    # blocks:
+    #     disabled: []
+
+# The CMS adds a main menu to the sites: use its site entity. A project with its own
+# site entity adds SiteMainMenuInterface and SiteMainMenuTrait to it instead.
+gingerminds_multisite:
+    resources:
+        site:
+            entity: Gingerminds\CmsBundle\Site\Entity\Site

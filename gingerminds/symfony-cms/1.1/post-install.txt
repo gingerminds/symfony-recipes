@@ -1,0 +1,14 @@
+  * <fg=blue>WYSIWYG</>: install TipTap in the importmap:
+      <comment>php bin/console importmap:require @tiptap/core @tiptap/starter-kit @tiptap/extension-table</>
+
+  * <fg=blue>Database</>: generate and run the migration, then create the permissions:
+      <comment>php bin/console doctrine:migrations:diff</>
+      <comment>php bin/console doctrine:migrations:migrate</>
+      <comment>php bin/console gingerminds:permissions:sync</>
+
+  * <fg=blue>Big sites</>: route the search messages to an async transport
+    (section 7 of <comment>vendor/gingerminds/symfony-cms/docs/Installation.md</>)
+
+  * <fg=blue>Imported database</>: sync the page URLs and the search index once:
+      <comment>php bin/console gingerminds:cms:page-urls:sync</>
+      <comment>php bin/console gingerminds:cms:search:reindex</>

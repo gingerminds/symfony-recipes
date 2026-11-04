@@ -1,0 +1,4 @@
+# Write endpoints of the file library. The resource routes come from the core
+# `gingerminds_crud` loader, the API ones from API Platform.
+gingerminds_media_manager:
+    resource: '@GingermindsMediaManagerBundle/config/routes.php'

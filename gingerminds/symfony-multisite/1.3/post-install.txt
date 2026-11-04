@@ -1,0 +1,11 @@
+  * <fg=blue>Database</>: generate and run the migration, then create the permissions:
+      <comment>php bin/console doctrine:migrations:diff</>
+      <comment>php bin/console doctrine:migrations:migrate</>
+      <comment>php bin/console gingerminds:permissions:sync</>
+
+  * <fg=blue>Optional</>, front translations: keep only the Drive client of
+    <comment>google/apiclient</> in <comment>composer.json</> (section 5 of
+    <comment>vendor/gingerminds/symfony-multisite/docs/Installation.md</>)
+
+  * <fg=blue>Optional</>, users restricted to some sites: add
+    <comment>SiteRestrictedUserInterface</> and <comment>UserSitesTrait</> to your User (section 6)

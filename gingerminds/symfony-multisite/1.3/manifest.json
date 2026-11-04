@@ -1,0 +1,12 @@
+{
+    "bundles": {
+        "Gingerminds\\MultisiteBundle\\GingermindsMultisiteBundle": ["all"]
+    },
+    "copy-from-recipe": {
+        "config/": "%CONFIG_DIR%/"
+    },
+    "env": {
+        "#1": "Front translations from Google Drive (needs a stable APP_SECRET)",
+        "GINGERMINDS_MULTISITE_TRANSLATION_ENABLED": "false"
+    }
+}

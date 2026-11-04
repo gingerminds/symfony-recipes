@@ -1,0 +1,31 @@
+# Full reference: bin/console config:dump-reference gingerminds_core
+# Documentation: vendor/gingerminds/symfony-core/docs
+gingerminds_core:
+    admin_prefix: admin              # keep in sync with security.yaml access_control
+    health_check_path: health        # public GET /health -> {"status": "ok"} (Docker healthchecks)
+
+    api:
+        prefix: api                  # keep in sync with the security.yaml firewalls
+        # token_ttl: 86400           # API token lifetime in seconds (default: 24 hours, null: no expiration)
+
+    # Core resources bound to project entities. To customize an entity, controller,
+    # form or templates, extend the core class and declare it here, e.g.:
+    # resources:
+    #     user:
+    #         entity: App\Entity\User\User
+
+when@dev:
+    gingerminds_core:
+        cache:
+            enabled: false
+
+when@test:
+    gingerminds_core:
+        cache:
+            enabled: false
+
+# when@prod:
+#     gingerminds_core:
+#         security:
+#             # Hosts allowed as "Origin" of the admin login form (empty list = no check)
+#             authorized_domains: ['%env(APP_HOST)%']

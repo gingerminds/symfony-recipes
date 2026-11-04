@@ -1,0 +1,17 @@
+  * <fg=blue>Security</>: copy the firewalls and access_control of
+    <comment>vendor/gingerminds/symfony-core/docs/Installation.md</> (section 3)
+    into <comment>config/packages/security.yaml</>
+
+  * <fg=blue>API Platform</>: set the formats and defaults of section 4
+    in <comment>config/packages/api_platform.yaml</>
+
+  * <fg=blue>Database</>: generate and run the migration, then create the
+    permissions and the first admin user:
+      <comment>php bin/console doctrine:migrations:diff</>
+      <comment>php bin/console doctrine:migrations:migrate</>
+      <comment>php bin/console gingerminds:permissions:sync</> (on every deploy)
+      <comment>php bin/console gingerminds:create:user</>
+
+  * <fg=blue>Admin assets</>: install the JavaScript packages and add the
+    <comment>gingerminds-core-admin</> entrypoint to <comment>importmap.php</> (section 6), then
+      <comment>php bin/console sass:build</>

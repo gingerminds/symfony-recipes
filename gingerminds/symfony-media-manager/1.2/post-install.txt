@@ -1,0 +1,9 @@
+  * <fg=blue>Database</>: generate and run the migration, then create the permissions:
+      <comment>php bin/console doctrine:migrations:diff</>
+      <comment>php bin/console doctrine:migrations:migrate</>
+      <comment>php bin/console gingerminds:permissions:sync</>
+
+  * <fg=blue>Several servers</>: use a shared lock store (e.g. <comment>LOCK_DSN=redis://redis:6379</>)
+
+  * <fg=blue>Baskets</>: purge the expired guest baskets every day:
+      <comment>php bin/console gingerminds:media:basket:purge</>
