@@ -1,12 +1,12 @@
 name: Update Flex endpoint
 
-# Builds the Flex endpoint (index.json + one json per recipe) from the recipes of `main`
+# Builds the Flex endpoint (index.json + one json per recipe) from the recipes of `master`
 # and force-pushes it to the `flex/main` branch, served by raw.githubusercontent.com.
 # Same tooling as symfony/recipes: https://github.com/symfony-tools/recipes-checker
 
 on:
     push:
-        branches: [main]
+        branches: [master]
     workflow_dispatch:
 
 permissions:
@@ -48,7 +48,7 @@ jobs:
             - name: Generate the endpoint
               run: |
                   mkdir .github/flex-endpoint
-                  git ls-tree HEAD */*/* | php .github/recipes-checker-main/run generate:flex-endpoint ${{ github.repository }} main flex/main .github/flex-endpoint
+                  git ls-tree HEAD */*/* | php .github/recipes-checker-main/run generate:flex-endpoint ${{ github.repository }} ${{ github.ref_name }} flex/main .github/flex-endpoint
 
             - name: Push to flex/main
               run: |

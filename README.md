@@ -54,7 +54,7 @@ Flex writes the `env` variables to `.env` (and `.env.dist`), not to `.env.exampl
 
 ## Publishing
 
-On every push to `main` (GitLab mirrored to GitHub), the GitHub workflow
+On every push to `master` (GitLab mirrored to GitHub), the GitHub workflow
 `.github/workflows/flex-update.yml` lints the manifests, generates the endpoint with
 [`symfony-tools/recipes-checker`](https://github.com/symfony-tools/recipes-checker) and
 force-pushes it to the `flex/main` branch. Never commit to `flex/main` by hand.
@@ -66,7 +66,7 @@ git clone https://github.com/symfony-tools/recipes-checker.git ../recipes-checke
 composer install --working-dir=../recipes-checker --no-dev
 php ../recipes-checker/run lint:manifests
 mkdir -p /tmp/flex-endpoint
-git ls-tree HEAD */*/* | php ../recipes-checker/run generate:flex-endpoint gingerminds/symfony-recipes main flex/main /tmp/flex-endpoint
+git ls-tree HEAD */*/* | php ../recipes-checker/run generate:flex-endpoint gingerminds/symfony-recipes master flex/main /tmp/flex-endpoint
 ```
 
 `git ls-tree HEAD` only lists committed recipes: commit before generating.
