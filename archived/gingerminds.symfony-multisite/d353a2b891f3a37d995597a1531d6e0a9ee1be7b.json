@@ -1,0 +1,62 @@
+{
+    "manifests": {
+        "gingerminds/symfony-multisite": {
+            "manifest": {
+                "bundles": {
+                    "Gingerminds\\MultisiteBundle\\GingermindsMultisiteBundle": [
+                        "all"
+                    ]
+                },
+                "copy-from-recipe": {
+                    "config/": "%CONFIG_DIR%/"
+                },
+                "env": {
+                    "#1": "Front translations from Google Drive (needs a stable APP_SECRET)",
+                    "GINGERMINDS_MULTISITE_TRANSLATION_ENABLED": "false"
+                },
+                "post-install-output": [
+                    "  * <fg=blue>Database</>: generate and run the migration, then create the permissions:",
+                    "      <comment>php bin/console doctrine:migrations:diff</>",
+                    "      <comment>php bin/console doctrine:migrations:migrate</>",
+                    "      <comment>php bin/console gingerminds:permissions:sync</>",
+                    "",
+                    "  * <fg=blue>Optional</>, front translations: keep only the Drive client of",
+                    "    <comment>google/apiclient</> in <comment>composer.json</> (section 5 of",
+                    "    <comment>vendor/gingerminds/symfony-multisite/docs/Installation.md</>)",
+                    "",
+                    "  * <fg=blue>Optional</>, users restricted to some sites: add",
+                    "    <comment>SiteRestrictedUserInterface</> and <comment>UserSitesTrait</> to your User (section 6)"
+                ]
+            },
+            "files": {
+                "config/packages/gingerminds_multisite.yaml": {
+                    "contents": [
+                        "# Full reference: bin/console config:dump-reference gingerminds_multisite",
+                        "# Documentation: vendor/gingerminds/symfony-multisite/docs",
+                        "gingerminds_multisite:",
+                        "    translation:",
+                        "        # Front translations from Google Drive. The service account credentials are",
+                        "        # encrypted with APP_SECRET: keep it set and stable.",
+                        "        enabled: '%env(bool:GINGERMINDS_MULTISITE_TRANSLATION_ENABLED)%'",
+                        "",
+                        "    # translation_fallback: true     # API: a missing translation falls back to the site default language",
+                        "    # unknown_host: first_site       # host matching no site URL: first_site | not_found",
+                        ""
+                    ],
+                    "executable": false
+                },
+                "config/routes/gingerminds_multisite.yaml": {
+                    "contents": [
+                        "# Admin site switcher and translations refresh. The site/language CRUD routes come from",
+                        "# the core `gingerminds_crud` loader, the API ones from API Platform.",
+                        "gingerminds_multisite:",
+                        "    resource: '@GingermindsMultisiteBundle/config/routes.php'",
+                        ""
+                    ],
+                    "executable": false
+                }
+            },
+            "ref": "d353a2b891f3a37d995597a1531d6e0a9ee1be7b"
+        }
+    }
+}

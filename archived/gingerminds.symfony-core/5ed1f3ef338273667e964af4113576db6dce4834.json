@@ -1,0 +1,96 @@
+{
+    "manifests": {
+        "gingerminds/symfony-core": {
+            "manifest": {
+                "bundles": {
+                    "Gingerminds\\CoreBundle\\GingermindsCoreBundle": [
+                        "all"
+                    ]
+                },
+                "copy-from-recipe": {
+                    "assets/": "assets/",
+                    "config/": "%CONFIG_DIR%/"
+                },
+                "post-install-output": [
+                    "  * <fg=blue>Security</>: copy the firewalls and access_control of",
+                    "    <comment>vendor/gingerminds/symfony-core/docs/Installation.md</> (section 3)",
+                    "    into <comment>config/packages/security.yaml</>",
+                    "",
+                    "  * <fg=blue>API Platform</>: set the formats and defaults of section 4",
+                    "    in <comment>config/packages/api_platform.yaml</>",
+                    "",
+                    "  * <fg=blue>Database</>: generate and run the migration, then create the",
+                    "    permissions and the first admin user:",
+                    "      <comment>php bin/console doctrine:migrations:diff</>",
+                    "      <comment>php bin/console doctrine:migrations:migrate</>",
+                    "      <comment>php bin/console gingerminds:permissions:sync</> (on every deploy)",
+                    "      <comment>php bin/console gingerminds:create:user</>",
+                    "",
+                    "  * <fg=blue>Admin assets</>: install the JavaScript packages and add the",
+                    "    <comment>gingerminds-core-admin</> entrypoint to <comment>importmap.php</> (section 6), then",
+                    "      <comment>php bin/console sass:build</>"
+                ]
+            },
+            "files": {
+                "assets/styles/gingerminds-core/_theme.scss": {
+                    "contents": [
+                        "// Theme of the gingerminds admin: every variable of the bundle stylesheet is !default.",
+                        "// Rebuild with `bin/console sass:build` after a change.",
+                        "",
+                        "// Brand color of the sidebar menu (hover, active items) and of the user avatar.",
+                        "// $sidebar-menu-primary-color: #d32f2f;",
+                        ""
+                    ],
+                    "executable": false
+                },
+                "config/packages/gingerminds_core.yaml": {
+                    "contents": [
+                        "# Full reference: bin/console config:dump-reference gingerminds_core",
+                        "# Documentation: vendor/gingerminds/symfony-core/docs",
+                        "gingerminds_core:",
+                        "    admin_prefix: admin              # keep in sync with security.yaml access_control",
+                        "    health_check_path: health        # public GET /health -> {\"status\": \"ok\"} (Docker healthchecks)",
+                        "",
+                        "    api:",
+                        "        prefix: api                  # keep in sync with the security.yaml firewalls",
+                        "        # token_ttl: 86400           # API token lifetime in seconds (default: 24 hours, null: no expiration)",
+                        "",
+                        "    # Core resources bound to project entities. To customize an entity, controller,",
+                        "    # form or templates, extend the core class and declare it here, e.g.:",
+                        "    # resources:",
+                        "    #     user:",
+                        "    #         entity: App\\Entity\\User\\User",
+                        "",
+                        "when@dev:",
+                        "    gingerminds_core:",
+                        "        cache:",
+                        "            enabled: false",
+                        "",
+                        "when@test:",
+                        "    gingerminds_core:",
+                        "        cache:",
+                        "            enabled: false",
+                        "",
+                        "# when@prod:",
+                        "#     gingerminds_core:",
+                        "#         security:",
+                        "#             # Hosts allowed as \"Origin\" of the admin login form (empty list = no check)",
+                        "#             authorized_domains: ['%env(APP_HOST)%']",
+                        ""
+                    ],
+                    "executable": false
+                },
+                "config/routes/gingerminds_core.yaml": {
+                    "contents": [
+                        "# Admin (under gingerminds_core.admin_prefix), generated CRUD routes, API login/logout, /health",
+                        "gingerminds_core:",
+                        "    resource: '@GingermindsCoreBundle/config/routes.php'",
+                        ""
+                    ],
+                    "executable": false
+                }
+            },
+            "ref": "5ed1f3ef338273667e964af4113576db6dce4834"
+        }
+    }
+}

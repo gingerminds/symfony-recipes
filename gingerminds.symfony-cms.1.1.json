@@ -1,0 +1,66 @@
+{
+    "manifests": {
+        "gingerminds/symfony-cms": {
+            "manifest": {
+                "bundles": {
+                    "Gingerminds\\CmsBundle\\GingermindsCmsBundle": [
+                        "all"
+                    ]
+                },
+                "copy-from-recipe": {
+                    "config/": "%CONFIG_DIR%/"
+                },
+                "post-install-output": [
+                    "  * <fg=blue>WYSIWYG</>: install TipTap in the importmap:",
+                    "      <comment>php bin/console importmap:require @tiptap/core @tiptap/starter-kit @tiptap/extension-table</>",
+                    "",
+                    "  * <fg=blue>Database</>: generate and run the migration, then create the permissions:",
+                    "      <comment>php bin/console doctrine:migrations:diff</>",
+                    "      <comment>php bin/console doctrine:migrations:migrate</>",
+                    "      <comment>php bin/console gingerminds:permissions:sync</>",
+                    "",
+                    "  * <fg=blue>Big sites</>: route the search messages to an async transport",
+                    "    (section 7 of <comment>vendor/gingerminds/symfony-cms/docs/Installation.md</>)",
+                    "",
+                    "  * <fg=blue>Imported database</>: sync the page URLs and the search index once:",
+                    "      <comment>php bin/console gingerminds:cms:page-urls:sync</>",
+                    "      <comment>php bin/console gingerminds:cms:search:reindex</>"
+                ]
+            },
+            "files": {
+                "config/packages/gingerminds_cms.yaml": {
+                    "contents": [
+                        "# Full reference: bin/console config:dump-reference gingerminds_cms",
+                        "# Documentation: vendor/gingerminds/symfony-cms/docs",
+                        "gingerminds_cms: ~",
+                        "    # search:",
+                        "    #     engine: doctrine",
+                        "    #     message_threshold: 100     # above it, ReindexSearchContents messages (route them to async)",
+                        "    # blocks:",
+                        "    #     disabled: []",
+                        "",
+                        "# The CMS adds a main menu to the sites: use its site entity. A project with its own",
+                        "# site entity adds SiteMainMenuInterface and SiteMainMenuTrait to it instead.",
+                        "gingerminds_multisite:",
+                        "    resources:",
+                        "        site:",
+                        "            entity: Gingerminds\\CmsBundle\\Site\\Entity\\Site",
+                        ""
+                    ],
+                    "executable": false
+                },
+                "config/routes/gingerminds_cms.yaml": {
+                    "contents": [
+                        "# Block modal of the pages. The CRUD and tree routes come from the core",
+                        "# `gingerminds_crud` loader, the API ones from API Platform.",
+                        "gingerminds_cms:",
+                        "    resource: '@GingermindsCmsBundle/config/routes.php'",
+                        ""
+                    ],
+                    "executable": false
+                }
+            },
+            "ref": "ed6708dc36b76f9dc02b3280ea5a46af6adb067d"
+        }
+    }
+}
