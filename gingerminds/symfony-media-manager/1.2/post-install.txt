@@ -1,3 +1,10 @@
+  * <fg=blue>Storage</>: the files go to <comment>var/storage/media</> by default; the
+    <comment>default.storage</> of <comment>config/packages/flysystem.yaml</> is not used unless mapped
+    in <comment>config/packages/gingerminds_media_manager.yaml</>
+
+  * <fg=blue>Production</>: keep <comment>var/storage/media</> on a persistent volume,
+    or the files are lost on every redeploy of the container
+
   * <fg=blue>Database</>: generate and run the migration, then create the permissions:
       <comment>php bin/console doctrine:migrations:diff</>
       <comment>php bin/console doctrine:migrations:migrate</>
